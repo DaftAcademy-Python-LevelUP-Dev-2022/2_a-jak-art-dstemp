@@ -56,4 +56,10 @@ def format_output(*required_keys):
 
 
 def add_method_to_instance(klass):
-    pass
+    def collect_klass(func):
+        def func_as_method(*args):
+            return func()
+        setattr(klass, func.__name__, func_as_method)
+        return func
+    return collect_klass
+
